@@ -4,6 +4,10 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace FitnessApp.BL.Model
 {
+    /// <summary>
+    /// Пол.
+    /// </summary>
+    [Serializable]
     public class Gender
     {
         /// <summary>
