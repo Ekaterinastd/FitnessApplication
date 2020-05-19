@@ -18,12 +18,12 @@ namespace FitnessApp.BL.Model
         /// <summary>
         /// Пол.
         /// </summary>
-        public Gender Gender { get; }
+        public Gender Gender { get; set; }//нарушение безопасности
 
         /// <summary>
         /// Дата рождения.
         /// </summary>
-        public DateTime BirthDate { get; }
+        public DateTime BirthDate { get; set; }//нарушение безопасности
 
         /// <summary>
         /// Вес.
@@ -34,7 +34,19 @@ namespace FitnessApp.BL.Model
         /// Рост.
         /// </summary>
         public double Height { get; set; }
+
+        public int Age 
+        { get
+            {
+                // return DateTime.Now.Year - BirthDate.Year; 
+                int age = DateTime.Today.Year - BirthDate.Year;
+                if (BirthDate > DateTime.Today.AddYears(-age))//TODO: убрать инвертирование
+                    age--;
+                return age;
+            } 
+        } 
         #endregion
+
         /// <summary>
         /// Создать нового пользователя.
         /// </summary>
@@ -51,7 +63,7 @@ namespace FitnessApp.BL.Model
                 throw new ArgumentNullException("Имя пользователя не может быть пустым или null.", nameof(name));
             }
 
-            if(gender==null)
+            if (gender==null)
             {
                 throw new ArgumentNullException("Пол не может быть пустым или null.", nameof(gender));
             }
@@ -71,12 +83,26 @@ namespace FitnessApp.BL.Model
                 throw new ArgumentException("Рост не может быть отрицательным или равен нулю.", nameof(height));
             }
             #endregion
+
+            Name = name;
+            Gender = gender;
+            BirthDate = birthDate;
+            Weight = weight;
+            Height = height;
         }
 
-        
+        public User(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentNullException("Имя пользователя не может быть пустым или null.", nameof(name));
+            }
+            Name = name;
+        }
+
         public override string ToString()
         {
-            return Name;
+            return Name + " " + Age;
         }
     }
 }
