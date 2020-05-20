@@ -10,8 +10,9 @@ namespace FitnessApp.BL.Controller
     /// <summary>
     /// Контроллер пользователя.
     /// </summary>
-    public class UserController
+    public class UserController : ControllerBase
     {
+        private const string UsersFileName = "users.dat";
         /// <summary>
         /// Список пользователей приложения.
         /// </summary>
@@ -48,20 +49,7 @@ namespace FitnessApp.BL.Controller
         /// <returns>Список пользователей.</returns>
         private List<User> GetUsersData()
         {
-            var formatter = new BinaryFormatter();
-
-            using (var fs = new FileStream("users.dat", FileMode.OpenOrCreate))
-            {
-                if (fs.Length > 0 && formatter.Deserialize(fs) is List<User> users)
-                {
-                    return users;
-                }
-                else
-                {
-                    return new List<User>();
-                }
-
-            }
+            return Load<List<User>>(UsersFileName) ?? new List<User>();
         }
 
         /// <summary>
@@ -69,11 +57,7 @@ namespace FitnessApp.BL.Controller
         /// </summary>
         public void Save()
         {
-            var formatter = new BinaryFormatter();
-            using (var fs = new FileStream("users.dat", FileMode.OpenOrCreate))
-            {
-                formatter.Serialize(fs, Users);
-            }
+            Save(UsersFileName, Users);
         }
 
         public void SetNewUserData(string genderName, DateTime birthDate, double weight = 1, double height = 1)
