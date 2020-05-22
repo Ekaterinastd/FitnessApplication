@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using FitnessApp.BL.Controller;
+using FitnessApp.BL.Model;
 
 namespace FitnessApp.CMD
 {
@@ -11,6 +13,8 @@ namespace FitnessApp.CMD
             Console.WriteLine("Введите имя пользователя: ");
             var name = Console.ReadLine();
             var userController = new UserController(name);
+            var eatingController = new EatingController(userController.CurrentUser);
+
             if(userController.IsNewUser)
             {
                 Console.Write("Введите пол: ");
@@ -22,7 +26,33 @@ namespace FitnessApp.CMD
                 userController.SetNewUserData(gender, birthDate, weight, height);
             }
             Console.WriteLine(userController.CurrentUser);
+            Console.WriteLine("Что вы хотите делать?");
+            Console.WriteLine("Е - ввести приём пищи");
+            var key = Console.ReadKey();
+            Console.WriteLine();
+            if (key.Key == ConsoleKey.E)
+            {
+               var foods = EnterEating();
+                eatingController.Add(foods.Food, foods.Weight);
+                foreach(var item in eatingController.Eating.Foods)
+                {
+                    Console.WriteLine($"\t{item.Key} - {item.Value}гр.");
+                }
+            }
             Console.ReadKey();
+        }
+
+        private static (Food Food, double Weight) EnterEating()
+        {
+            Console.Write("Введите название продукта: ");
+            var foodName = Console.ReadLine();
+            var weight = ParseDouble("вес порции");           
+            var calories = ParseDouble("калорийность");
+            var prots = ParseDouble("кол-во белков");
+            var fats = ParseDouble("кол-во жиров");
+            var carbs = ParseDouble("кол-во углеводов");
+            var product = new Food(foodName,prots,fats,carbs,calories);
+            return (Food:product, Weight: weight);
         }
 
         /// <summary>

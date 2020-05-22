@@ -5,6 +5,11 @@ namespace FitnessApp.BL.Controller
 {
     public abstract class  ControllerBase
     {
+        /// <summary>
+        /// Сохранение объекта в файл.
+        /// </summary>
+        /// <param name="fileName">Имя файла.</param>
+        /// <param name="item">Объект.</param>
         protected void Save(string fileName, object item)
         {
             var formatter = new BinaryFormatter();
@@ -14,6 +19,12 @@ namespace FitnessApp.BL.Controller
             }
         }
 
+        /// <summary>
+        /// Загрузка объекта из файла.
+        /// </summary>
+        /// <typeparam name="T">Тип загружаемых объектов.</typeparam>
+        /// <param name="fileName">Название файла.</param>
+        /// <returns>Объект.</returns>
         protected T Load<T>(string fileName)
         {
             var formatter = new BinaryFormatter();
@@ -26,7 +37,7 @@ namespace FitnessApp.BL.Controller
                 }
                 else
                 {
-                    return default(T);
+                    return default;
                 }
 
             }

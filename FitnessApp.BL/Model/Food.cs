@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace FitnessApp.BL.Model
 {
+    [Serializable]
     public class Food
     {
+        /// <summary>
+        /// Название продукта.
+        /// </summary>
         public string Name { get; }
 
         /// <summary>

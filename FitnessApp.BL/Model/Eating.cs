@@ -9,6 +9,7 @@ namespace FitnessApp.BL.Model
     /// <summary>
     /// Приём пищи.
     /// </summary>
+    [Serializable]
     public class Eating
     {
         public Eating(User user)
@@ -25,6 +26,11 @@ namespace FitnessApp.BL.Model
         public Dictionary<Food, double> Foods { get; }
         public User User { get; }
 
+        /// <summary>
+        /// Добавление продукта в приём пищи.
+        /// </summary>
+        /// <param name="food">Продукт.</param>
+        /// <param name="weight">Вес продукта.</param>
         public void Add(Food food, double weight)
         {
 
